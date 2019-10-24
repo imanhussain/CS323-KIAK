@@ -34,6 +34,9 @@
     <div id="message">
       <h2>Hello!! Welcome to KIAK's Project :)</h2>
       <h1>More of our project coming soon.  See below for the default loading page:</h1>
+      <button id="sign-in" onclick="signIn()" hidden>
+      	Sign-in
+    	</button>
       <hr>
       <h1>Firebase Hosting Setup Complete</h1>
       <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
@@ -42,6 +45,11 @@
     <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
+      function signIn() {
+              var provider = new firebase.auth.GoogleAuthProvider();
+              firebase.auth().signInWithPopup(provider);
+            }
+
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
