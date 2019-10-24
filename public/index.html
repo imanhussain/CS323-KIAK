@@ -34,9 +34,12 @@
     <div id="message">
       <h2>Hello!! Welcome to KIAK's Project :)</h2>
       <h1>More of our project coming soon.  See below for the default loading page:</h1>
-      <button id="sign-in" onclick="signIn()" hidden>
+      <button id="sign-in" onclick="signIn()">
       	Sign-in
-    	</button>
+      </button>
+      <button id="sign-out" onclick="signOut()" hidden>
+      	Sign-out
+      </button>
       <hr>
       <h1>Firebase Hosting Setup Complete</h1>
       <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
@@ -45,16 +48,11 @@
     <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
-      function signIn() {
-              var provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider);
-            }
-
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
-        // firebase.auth().onAuthStateChanged(user => { });
+        firebase.auth().onAuthStateChanged(authStateObserver);
         // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
         // firebase.messaging().requestPermission().then(() => { });
         // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
@@ -70,6 +68,24 @@
           document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
       });
+        
+        function signIn() {
+              var provider = new firebase.auth.GoogleAuthProvider();
+              firebase.auth().signInWithPopup(provider);
+        }
+        
+        function signOut() {
+            firebase.auth().signOut();
+        }
+
+        function authStateObserver(user) {
+        if (user) { // User is signed in!
+            document.getElementById("sign-in").hidden = true;
+            document.getElementById("sign-out").hidden = false;
+        } else { // User is signed out!
+            document.getElementById("sign-in").hidden = false;
+            document.getElementById("sign-out").hidden = true;
+        }
     </script>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
