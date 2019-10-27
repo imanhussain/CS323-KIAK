@@ -48,6 +48,25 @@
     <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
+        function signIn() {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider);
+        }
+        
+        function signOut() {
+            firebase.auth().signOut();
+        }
+        
+        function authStateObserver(user) {
+            if (user) { // User is signed in!
+                document.getElementById("sign-in").hidden = true;
+                document.getElementById("sign-out").hidden = false;
+            } else { // User is signed out!
+                document.getElementById("sign-in").hidden = false;
+                document.getElementById("sign-out").hidden = true;
+            }
+        }
+            
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
@@ -68,24 +87,6 @@
           document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
       });
-        
-        function signIn() {
-              var provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider);
-        }
-        
-        function signOut() {
-            firebase.auth().signOut();
-        }
-
-        function authStateObserver(user) {
-        if (user) { // User is signed in!
-            document.getElementById("sign-in").hidden = true;
-            document.getElementById("sign-out").hidden = false;
-        } else { // User is signed out!
-            document.getElementById("sign-in").hidden = false;
-            document.getElementById("sign-out").hidden = true;
-        }
     </script>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
