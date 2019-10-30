@@ -6,8 +6,8 @@
     <title>Welcome to Firebase Hosting</title>
 
     <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.2.2/firebase-firestore.js"></script>
     <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.2.2/firebase-firestore.js"></script>
     <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/7.1.0/firebase-auth.js"></script>
     <script defer src="/__/firebase/7.1.0/firebase-database.js"></script>
@@ -46,13 +46,24 @@
       <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
       <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
     </div>
-    <p id="name"></p>
     <p id="load">Firebase SDK Loading&hellip;</p>
+    
+    <div style="margin:20px">
+        <h4>5 People in Firestore Database</h4>
+            <p id="user1"></p>
+            <p id="user2"></p>
+            <p id="user3"></p>
+            <p id="user4"></p>
+            <p id="user5"></p>
+        <h4>5 Posts in Firestore Database</h4>
+            <p id="article1"></p>
+            <p id="article2"></p>
+            <p id="article3"></p>
+            <p id="article4"></p>
+            <p id="article5"></p>
+    </div>
 
     <script>
-        import * as firebase from 'firebase';
-        import 'firebase/firestore';
-        
         function signIn() {
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider);
@@ -74,10 +85,48 @@
     
         function intializeApp(){
 	       //get the HTML element where you want to print the name
-            var name = document.getElementById("name"); 
             var db = firebase.firestore();
+            
+            var name1 = document.getElementById("user1");
             db.collection("users").doc("XWi4j7fSesK7HtLQActL").onSnapshot(function(document) {
-                name.innerHTML = document.data().username;
+                name1.innerHTML = document.data().username;
+            });
+            var name2 = document.getElementById("user2"); 
+            db.collection("users").doc("NMwKrdmtBJsOiCBcQb9j").onSnapshot(function(document) {
+                name2.innerHTML = document.data().username;
+            });
+            var name3 = document.getElementById("user3"); 
+            db.collection("users").doc("GEqlAaKKnPKpwdUcoxNb").onSnapshot(function(document) {
+                name3.innerHTML = document.data().username;
+            });
+            var name4 = document.getElementById("user4"); 
+            db.collection("users").doc("srdHAqrDStAghJkg3xro").onSnapshot(function(document) {
+                name4.innerHTML = document.data().username;
+            });
+            var name5 = document.getElementById("user5"); 
+            db.collection("users").doc("5f330Wt2iKumj7DvngdR").onSnapshot(function(document) {
+                name5.innerHTML = document.data().username;
+            });
+            
+            var post1 = document.getElementById("article1");
+            db.collection("article_history").doc("U1jQF2JSTFu50Lpjbyzr").onSnapshot(function(document) {
+                post1.innerHTML = document.data().title;
+            });
+            var post2 = document.getElementById("article2"); 
+            db.collection("article_history").doc("cFdXg9Lo88OEDz6HNLko").onSnapshot(function(document) {
+                post2.innerHTML = document.data().title;
+            });
+            var post3 = document.getElementById("article3"); 
+            db.collection("article_history").doc("emJFJTdPSzHkayDa1JRR").onSnapshot(function(document) {
+                post3.innerHTML = document.data().title;
+            });
+            var post4 = document.getElementById("article4"); 
+            db.collection("article_history").doc("q4MYmqGnVgADNpF4HJK5").onSnapshot(function(document) {
+                post4.innerHTML = document.data().title;
+            });
+            var post5 = document.getElementById("article5"); 
+            db.collection("article_history").doc("uJfBFJ1Up1lQbD2rFAdL").onSnapshot(function(document) {
+                post5.innerHTML = document.data().title;
             });
         }
             
@@ -103,15 +152,5 @@
         }
       });
     </script>
-
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-      <script src="/__/firebase/7.1.0/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-
-    <!-- Initialize Firebase -->
-      <script src="/__/firebase/init.js"></script>
-
   </body>
 </html>
