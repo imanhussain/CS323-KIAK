@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.2.2/firebase-firestore.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.1.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.1.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+      <div id="people-card">
+        <br>
+          Name: <span id="name"></span>
+        <p>
+          City:  <span id="user-id"></span>
+      </div>
+
+      <script>
+          document.addEventListener('DOMContentLoaded', function() {
+        firebase.auth().onAuthStateChanged(authStateObserver);
+        var vals = window.location.search.split("=");
+        var db = firebase.firestore();
+        db.collection("users").doc(vals[1]).onSnapshot(function (doc) {
+             document.getElementById("name").innerHTML = doc.data().username;
+             document.getElementById("user-id").innerHTML = doc.data().user_id;
+         });
+
+        try {
+            let app = firebase.app()
+            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+        } catch (e) {
+         console.error(e);
+        }
+        });
+          
+          function authStateObserver(user) {
+            if (user) { // User is signed in!
+                document.getElementById("sign-in").hidden = true;
+                document.getElementById("sign-out").hidden = false;
+            } else { // User is signed out!
+                document.getElementById("sign-in").hidden = false;
+                document.getElementById("sign-out").hidden = true;
+            }
+        }
+        </script>
+    </body>
+</html>
+    
