@@ -32,9 +32,10 @@
     </style>
   </head>
   <body>
+      
     <div id="message">
-      <h2>Hello!! Welcome to KIAK's Project :)</h2>
-      <h1>More of our project coming soon.  See below for the default loading page:</h1>
+      <h2 id="currentUser">Hello </h2>
+      <h5 id="profilePage"></h5>
       <button id="sign-in" onclick="signIn()">
       	Sign-in
       </button>
@@ -42,9 +43,6 @@
       	Sign-out
       </button>
       <hr>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
           
@@ -77,16 +75,25 @@
             if (user) { // User is signed in!
                 document.getElementById("sign-in").hidden = true;
                 document.getElementById("sign-out").hidden = false;
+                var currentUser = firebase.auth().currentUser.displayName;
+                document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+                var profilePage = document.getElementById("profilePage");
+                
+                var db = firebase.firestore(); db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
+                profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+                });
+                
             } else { // User is signed out!
                 document.getElementById("sign-in").hidden = false;
                 document.getElementById("sign-out").hidden = true;
+                document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
             }
         }
     
         function intializeApp(){
 	       //get the HTML element where you want to print the name
-            var db = firebase.firestore();
-            
+            var db = firebase.firestore();    
+
             var name1 = document.getElementById("user1");
             db.collection("users").doc("XWi4j7fSesK7HtLQActL").onSnapshot(function(document) {
                 name1.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
