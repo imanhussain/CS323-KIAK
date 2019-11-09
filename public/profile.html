@@ -32,6 +32,18 @@
     </style>
   </head>
   <body>
+      
+    <div id="message">
+      <h2 id="currentUser">Hello </h2>
+      <h5 id="profilePage"></h5>
+      <button id="sign-in" onclick="signIn()">
+      	Sign-in
+      </button>
+      <button id="sign-out" onclick="signOut()" hidden>
+      	Sign-out
+      </button>
+      <hr>
+    </div>
       <div id="people-card">
         <br>
           Name: <span id="name"></span>
@@ -40,7 +52,17 @@
       </div>
 
       <script>
-          document.addEventListener('DOMContentLoaded', function() {
+        
+        function signIn() {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider);
+        }
+        
+        function signOut() {
+            firebase.auth().signOut();
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
@@ -57,13 +79,26 @@
         }
         });
           
+
           function authStateObserver(user) {
             if (user) { // User is signed in!
                 document.getElementById("sign-in").hidden = true;
                 document.getElementById("sign-out").hidden = false;
+                var currentUser = firebase.auth().currentUser.displayName;
+                document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+                var profilePage = document.getElementById("profilePage");
+                
+                var db = firebase.firestore(); 
+                document.getElementById("profilePage").hidden = false;
+                db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
+                profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+                });
+                
             } else { // User is signed out!
                 document.getElementById("sign-in").hidden = false;
                 document.getElementById("sign-out").hidden = true;
+                document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
+                document.getElementById("profilePage").hidden = true;
             }
         }
         </script>

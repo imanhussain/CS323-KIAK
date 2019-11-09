@@ -79,7 +79,9 @@
                 document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
                 var profilePage = document.getElementById("profilePage");
                 
-                var db = firebase.firestore(); db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
+                var db = firebase.firestore(); 
+                document.getElementById("profilePage").hidden = false;
+                db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
                 profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
                 });
                 
@@ -87,6 +89,7 @@
                 document.getElementById("sign-in").hidden = false;
                 document.getElementById("sign-out").hidden = true;
                 document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
+                document.getElementById("profilePage").hidden = true;
             }
         }
     
