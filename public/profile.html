@@ -47,8 +47,18 @@
       <div id="people-card">
         <br>
           Name: <span id="name"></span>
+        <!--<p>
+          User ID:  <span id="user-id"></span>-->
         <p>
-          User ID:  <span id="user-id"></span>
+          Profession: <span id="profession"></span>
+        <p>
+          Connections: <span id="connection_count"></span>
+        <p>
+          Date Joined: <span id="date_joined"></span>
+      </div>
+      <div id="my-connections">
+          <p>
+              My Connection List: <span id="connection"></span>
       </div>
 
       <script>
@@ -64,13 +74,24 @@
         
         document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
+        var db = firebase.firestore(); 
         var vals = window.location.search.split("=");
-        var db = firebase.firestore();
         db.collection("users").doc(vals[1]).onSnapshot(function (doc) {
-             document.getElementById("name").innerHTML = doc.data().username;
-             document.getElementById("user-id").innerHTML = doc.data().user_id;
-         });
-
+        document.getElementById("name").innerHTML = doc.data().username;
+        //document.getElementById("user-id").innerHTML = doc.data().user_id;
+        document.getElementById("profession").innerHTML = doc.data().profession;
+        document.getElementById("connection_count").innerHTML = doc.data().connection_count; 
+        document.getElementById("date_joined").innerHTML = (doc.data().date_joined).toDate();
+        });
+            
+        db.collection("users").doc(vals[1]).collection("user_connections").get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                //console.log(doc.id, " => ", doc.data());
+                document.getElementById("connection").innerHTML += "<p>" + doc.data().user_info.username + "</p>";
+            });
+        });
+            
         try {
             let app = firebase.app()
             let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
@@ -90,15 +111,20 @@
                 
                 var db = firebase.firestore(); 
                 document.getElementById("profilePage").hidden = false;
+                
                 db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
                 profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
                 });
+                
+                document.getElementById("people-card").hidden = false;
                 
             } else { // User is signed out!
                 document.getElementById("sign-in").hidden = false;
                 document.getElementById("sign-out").hidden = true;
                 document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
                 document.getElementById("profilePage").hidden = true;
+                document.getElementById("people-card").hidden = true;
+                
             }
         }
         </script>
