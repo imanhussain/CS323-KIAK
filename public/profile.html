@@ -31,8 +31,10 @@
       }
     </style>
   </head>
+
   <body>
-      
+
+    <!-- Sign-in/out box  -->
     <div id="message">
       <h2 id="currentUser">Hello </h2>
       <h5 id="profilePage"></h5>
@@ -44,90 +46,101 @@
       </button>
       <hr>
     </div>
-      <div id="people-card">
-        <br>
-          Name: <span id="name"></span>
-        <!--<p>
-          User ID:  <span id="user-id"></span>-->
-        <p>
-          Profession: <span id="profession"></span>
-        <p>
-          Connections: <span id="connection_count"></span>
-        <p>
-          Date Joined: <span id="date_joined"></span>
-      </div>
-      <div id="my-connections">
-          <p>
-              My Connection List: <span id="connection"></span>
-      </div>
 
-      <script>
-        
-        function signIn() {
-            var provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider);
-        }
-        
-        function signOut() {
-            firebase.auth().signOut();
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
+    <!-- Information about the user -->
+    <div id="people-card">
+      <br>
+        Name: <span id="name"></span>
+      <!--<p>
+      User ID:  <span id="user-id"></span>-->
+      <p>
+        Profession: <span id="profession"></span>
+      <p>
+        Connections: <span id="connection_count"></span>
+      <p>
+        Date Joined: <span id="date_joined"></span>
+    </div>
+
+    <!-- need to get this part to work!!! -->
+    <div id="my-connections">
+      <p>
+        My Connection List: <span id="connection"></span>
+    </div>
+
+    <script>
+
+      //sign in and out functions
+      function signIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider);
+      }
+
+      function signOut() {
+        firebase.auth().signOut();
+      }
+
+      //where the magic happens
+      document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
-        var db = firebase.firestore(); 
-        var vals = window.location.search.split("=");
-        db.collection("users").doc(vals[1]).onSnapshot(function (doc) {
-        document.getElementById("name").innerHTML = doc.data().username;
-        //document.getElementById("user-id").innerHTML = doc.data().user_id;
-        document.getElementById("profession").innerHTML = doc.data().profession;
-        document.getElementById("connection_count").innerHTML = doc.data().connection_count; 
-        document.getElementById("date_joined").innerHTML = (doc.data().date_joined).toDate();
-        });
-            
-        db.collection("users").doc(vals[1]).collection("user_connections").get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(docs) {
-                // doc.data() is never undefined for query doc snapshots
-                //console.log(doc.id, " => ", doc.data());
-                document.getElementById("connection").innerHTML += "<p>" + db.ref(docs.data().user_info) + "</p>";
-            });
-        });
-            
-        try {
-            let app = firebase.app()
-            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
-        } catch (e) {
-         console.error(e);
-        }
-        });
-          
+        var db = firebase.firestore(); //need this to access our database
 
-          function authStateObserver(user) {
-            if (user) { // User is signed in!
-                document.getElementById("sign-in").hidden = true;
-                document.getElementById("sign-out").hidden = false;
-                var currentUser = firebase.auth().currentUser.displayName;
-                document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
-                var profilePage = document.getElementById("profilePage");
-                
-                var db = firebase.firestore(); 
-                document.getElementById("profilePage").hidden = false;
-                
-                db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
-                profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
-                });
-                
-                document.getElementById("people-card").hidden = false;
-                
-            } else { // User is signed out!
-                document.getElementById("sign-in").hidden = false;
-                document.getElementById("sign-out").hidden = true;
-                document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
-                document.getElementById("profilePage").hidden = true;
-                document.getElementById("people-card").hidden = true;
-                
-            }
+        var vals = window.location.search.split("="); //split profile html to grab user's id
+        db.collection("users").doc(vals[1]).onSnapshot(function (doc) {
+          document.getElementById("name").innerHTML = doc.data().username;
+          //document.getElementById("user-id").innerHTML = doc.data().user_id;
+          document.getElementById("profession").innerHTML = doc.data().profession;
+          document.getElementById("connection_count").innerHTML = doc.data().connection_count;
+          document.getElementById("date_joined").innerHTML = (doc.data().date_joined).toDate();
+        });
+
+        //trying to get the user_connections from the subcollection of user_connections
+        //may have to switch to a map/array in the user's document instead
+        db.collection("users").doc(vals[1]).collection("user_connections").get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(docs) {
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(doc.id, " => ", doc.data());
+            document.getElementById("connection").innerHTML += "<p>" + db.ref(docs.data().user_info) + "</p>";
+          });
+        });
+
+        try {
+          let app = firebase.app()
+          let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+        } catch (e) {
+          console.error(e);
         }
-        </script>
-    </body>
+      });
+
+      function authStateObserver(user) {
+        if (user) { // User is signed in!
+          document.getElementById("sign-in").hidden = true;
+          document.getElementById("sign-out").hidden = false;
+
+          //personalize the welcome screen with user's name
+          var currentUser = firebase.auth().currentUser.displayName;
+          document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+          var profilePage = document.getElementById("profilePage");
+
+          var db = firebase.firestore();
+          document.getElementById("profilePage").hidden = false;
+
+          //link to the user's profile - do we need this?
+          db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
+            profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+          });
+
+          document.getElementById("people-card").hidden = false;
+
+        } else { // User is signed out!
+          document.getElementById("sign-in").hidden = false;
+          document.getElementById("sign-out").hidden = true;
+          //show generic welcome page, not customized
+          document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
+          document.getElementById("profilePage").hidden = true;
+          document.getElementById("people-card").hidden = true;
+        }
+      }
+
+    </script>
+  </body>
 </html>
-    
