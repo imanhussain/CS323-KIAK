@@ -103,19 +103,19 @@
             });
             var name2 = document.getElementById("user2"); 
             db.collection("users").doc("NMwKrdmtBJsOiCBcQb9j").onSnapshot(function(document) {
-                name2.innerHTML = document.data().username;
+                name2.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
             });
             var name3 = document.getElementById("user3"); 
             db.collection("users").doc("GEqlAaKKnPKpwdUcoxNb").onSnapshot(function(document) {
-                name3.innerHTML = document.data().username;
+                name3.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
             });
             var name4 = document.getElementById("user4"); 
             db.collection("users").doc("srdHAqrDStAghJkg3xro").onSnapshot(function(document) {
-                name4.innerHTML = document.data().username;
+                name4.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
             });
             var name5 = document.getElementById("user5"); 
             db.collection("users").doc("5f330Wt2iKumj7DvngdR").onSnapshot(function(document) {
-                name5.innerHTML = document.data().username;
+                name5.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
             });
             
             var post1 = document.getElementById("article1");
