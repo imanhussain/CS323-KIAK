@@ -25,6 +25,9 @@
       #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
       #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
       #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      #people-card {margin: 20px;}
+      #my-connections {margin: 20px;}
+      #user_history {margin: 20px;}
       @media (max-width: 600px) {
         body, #message { margin-top: 0; background: white; box-shadow: none; }
         body { border-top: 16px solid #ffa100; }
@@ -46,8 +49,18 @@
       </button>
       <hr>
     </div>
+      
+    <!--
+    NOTE: Because our system isn't fully functional yet due to issues with <thead>
+      database, there is information typed in manually that would be pulled from
+      the database if all goes according to plan, which will be noted with comments
+      underneath the respective lines of code. We wanted to include these in order
+      to get a better sense of what our site would look like later.
+    -->
 
     <!-- Information about the user -->
+    <!-- inputs put in before the <span id> are to be deleted; just to get
+    a sense of the kind of information that would be displayed-->
     <div id="people-card">
       <br>
         Name: <span id="name"></span>
@@ -60,11 +73,44 @@
       <p>
         Date Joined: <span id="date_joined"></span>
     </div>
-
+    
     <!-- need to get this part to work!!! -->
     <div id="my-connections">
       <p>
         My Connection List: <span id="connection"></span>
+    </div>
+<!--    <div>
+        <form>
+            Enter Information to be Added to the Firestore Database:
+            <input id="dataAddedByUser" type="text" name="dataForFirestore">
+        </form> 
+    </div>-->
+      
+        <!-- ******************************************* -->
+
+    <div id="user_history">
+      <br>
+      <h2> Wendy's History </h2>
+      <!-- this is an example post of what the activity feed might look like.
+      once we restructure the database, we will get a better sense of where/how
+      this information will be stored -->
+
+      <h3> Oct. 28, 2019 </h3>
+      <h4> Daily Article for October 28th, 2019: </h4>
+      <!-- will incorportate date pulled from daily_article -->
+      <h4> "Shooting in Sydney Raises Questions About Gun Control"</h4>
+      <!-- will incorportate title pulled from daily_article -->
+      <h5> by Damien Cave (New York Times) </h5>
+      <!-- will incorportate author, source pulled from daily_article -->
+
+      <!-- in our final design, these won't be buttons but rather symbols (for now, buttons) --> 
+      <button id="react1">
+      	Got Me Thinkin'
+      </button>
+
+      <button id="react2">
+      	Right On Target
+      </button>
     </div>
 
     <script>
@@ -78,7 +124,7 @@
       function signOut() {
         firebase.auth().signOut();
       }
-
+        
       //where the magic happens
       document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
@@ -128,7 +174,13 @@
           db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
             profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
           });
-
+            
+          /*var formData = document.getElementById("dataAddedByUser").value;
+          var dbRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+            dbRef.update({
+                username: formData,
+            });
+            */
           document.getElementById("people-card").hidden = false;
 
         } else { // User is signed out!
