@@ -5,14 +5,14 @@ admin.initializeApp();
 // Add a user to Firestore database:
 exports.setupUsers = functions.auth.user().onCreate(async (user) => {
   var fullName = user.displayName || 'Anonymous';
-  var photo = user.photoURL || 'None';
+  //var photo = user.photoURL || 'None';
   await admin.firestore().collection('users').doc(user.uid).set({
     username: fullName,
     user_id: user.uid,
     profession: "Unspecified",
     connection_count: 0,
-    profile_pic: photo,
-    date_joined: user.metaData.creationDate,
+    //profile_pic: photo,
+    //date_joined: firebase.firestore.FieldValue.serverTimestamp(), ---> Doesnt work
     
 /*
     profile_pic: photo,

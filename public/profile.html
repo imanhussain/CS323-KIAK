@@ -66,6 +66,7 @@
         Name: <span id="name"></span>
       <!--<p>
       User ID:  <span id="user-id"></span>-->
+      <button id="following" onclick="follow()"></button>
       <p>
         Profession: <span id="profession"></span>
       <p>
@@ -141,13 +142,28 @@
 
         //trying to get the user_connections from the subcollection of user_connections
         //may have to switch to a map/array in the user's document instead
-        db.collection("users").doc(vals[1]).collection("user_connections").get().then(function(querySnapshot) {
+        db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
+            
+            querySnapshot.data().user_connections.forEach(function(docs) {
+                //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
+                db.collection("users").doc(docs).onSnapshot(function(newDoc) {
+                    document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
+          });
+            })
+            
+        })
+          
+        /*collection("user_details").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(docs) {
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.id, " => ", doc.data());
-            document.getElementById("connection").innerHTML += "<p>" + db.ref(docs.data().user_info) + "</p>";
+            user_info = docs.collection("user_connections");
+            db.doc(user_info).onSnapshot(function(newQuerySnapshot) {
+                name = newQuerySnapshot.data().username;
+                document.getElementById("connection").innerHTML += "<p>" + name + "</p>";
+            })
           });
-        });
+        });*/
 
         try {
           let app = firebase.app()
