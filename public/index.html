@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Link to bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Welcome to Firebase Hosting</title>
 
     <!-- update the version number as needed -->
@@ -16,33 +19,33 @@
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
 
+
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
       #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h2 { color: black; font-weight: bold; font-size: 16px; margin: 0 0 8px; text-align: center;}
       #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
       #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding-: 16px; border-radius: 4px; }
       #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      /* #message {display: flex; justify-content: center;}  */
       #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      #welcome { margin: 20px; }
+      #welcome { margin-left: 20px; margin-right: 50px; border: 2px solid black;border-radius: 5px; padding-bottom: 20px; padding-top: 20px;}
+      #connection-info { margin-left: 50px; border: 2px solid black;border-radius: 5px; padding-bottom: 20px; padding-top: 20px;}
       @media (max-width: 600px) {
         body, #message { margin-top: 0; background: white; box-shadow: none; }
         body { border-top: 16px solid #ffa100; }
+        #welcome {color: black; font-weight: bold; font-size: 16px;}
       }
     </style>
   </head>
   <body>
 
     <div id="message">
-      <h2 id="currentUser">Hello </h2>
+      <h2 id="currentUser">Welcome to Who Cares! We're happy you're here.</h2>
       <h5 id="profilePage"></h5>
-      <button id="sign-in" onclick="signIn()">
-      	Sign-in
-      </button>
-      <button id="sign-out" onclick="signOut()" hidden>
-      	Sign-out
-      </button>
+      <button type="button" class="btn btn-dark" id="sign-in" onclick="signIn()">Sign In</button>
+      <button type="button" class="btn btn-dark" id="sign-out" onclick="signOut()" hidden>Sign Out</button>
       <hr>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
@@ -55,21 +58,25 @@
       to get a better sense of what our site would look like later.
     -->
 
-    <div id="welcome">
-      <h2 id="name"> Hi !</h2>
-      <h3> Before we show you the article of the day, please select your daily dot! </h3>
-      <h5> Daily dots represent what you topic you feel strongly about a day at a time, and
-          are saved for you to reference. See what you cared about last week, last month, or last year!</h5> 
+    <div id="welcome" class="container-fluid">
+      <h2 id="name"></h2>
+      <p> Before we show you the article of the day, please select your daily dot!
+       Daily dots represent what you topic you feel strongly about a day at a time, and
+          are saved for you to reference later on. See what you cared about last week, last month, or last year!</p>
       <!-- will eventually lead to pop-up for user to select dot; not created yet -->
       <!-- will affect dot related booleans within user_dot_history-->
-      <p>
-      <button id="daily_dot">
-        Select my Dot
-      </button>
-      <p>**************************************************************************************</p>
+      <h2>  What is important to you today?</h2>
+
+             <button type="button" class="btn btn-outline-primary">Gun Control</button>
+             <button type="button" class="btn btn-outline-secondary">Education</button>
+             <button type="button" class="btn btn-outline-success">Climate Change</button>
+             <button type="button" class="btn btn-outline-danger">Healthcare</button>
+             <button type="button" class="btn btn-outline-warning">Immigration</button>
+   </script>
+
     </div>
-      
-    <div style="margin:20px">
+
+    <div class="container-fluid" id="connection-info" style="margin:20px">
         <h4>5 People in Firestore Database</h4>
             <p id="user1"></p>
             <p id="user2"></p>
@@ -103,7 +110,9 @@
                 document.getElementById("sign-out").hidden = false;
                 var currentUser = firebase.auth().currentUser.displayName;
                 document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+                document.getElementById("name").innerHTML = "Hi, " + currentUser;
                 var profilePage = document.getElementById("profilePage");
+
 
                 var db = firebase.firestore();
                 document.getElementById("profilePage").hidden = false;
@@ -188,5 +197,10 @@
         }
       });
     </script>
+
+//source scripts for bootstrap
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
