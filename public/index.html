@@ -66,12 +66,11 @@
       <!-- will eventually lead to pop-up for user to select dot; not created yet -->
       <!-- will affect dot related booleans within user_dot_history-->
       <h2>  What is important to you today?</h2>
-
-             <button type="button" class="btn btn-outline-primary">Gun Control</button>
-             <button type="button" class="btn btn-outline-secondary">Education</button>
-             <button type="button" class="btn btn-outline-success">Climate Change</button>
-             <button type="button" class="btn btn-outline-danger">Healthcare</button>
-             <button type="button" class="btn btn-outline-warning">Immigration</button>
+      <button type="button" id="Gun Control" class="btn btn-outline-primary" onclick="dailyDot()">Gun Control</button>
+      <button type="button" id="Education" class="btn btn-outline-secondary" onclick="dailyDot()">Education</button>
+      <button type="button" id="Climate Change" class="btn btn-outline-success" onclick="dailyDot()">Climate Change</button>
+      <button type="button" id="Healthcare" class="btn btn-outline-danger" onclick="dailyDot()">Healthcare</button>
+      <button type="button" id="Immigration" class="btn btn-outline-warning" onclick="dailyDot()">Immigration</button>
    </script>
 
     </div>
@@ -104,6 +103,16 @@
             firebase.auth().signOut();
         }
 
+        function dailyDot(){
+                    //console.log("hooray!");
+                    var dailyAnswer = event.srcElement.id;
+                    var dailyAnswerDate= new Date()
+                dailyAnswerGetDate =  dailyAnswerDate.getDate()
+                dailyAnswerGetDay =  dailyAnswerDate.getDay()
+                dailyAnswerGetYear = dailyAnswerDate.getFullYear()
+                    alert ("You selected "+ dailyAnswer+ " for your daily dot answer on "+ dailyAnswerDate); //change to "you've selected this as ur dot today!"
+
+                }
         function authStateObserver(user) {
             if (user) { // User is signed in!
                 document.getElementById("sign-in").hidden = true;
