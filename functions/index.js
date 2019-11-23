@@ -11,6 +11,8 @@ exports.setupUsers = functions.auth.user().onCreate(async (user) => {
     user_id: user.uid,
     profession: "Unspecified",
     connection_count: 0,
+    date_joined: "Insert date here",
+    user_connections: []
     //profile_pic: photo,
     //date_joined: firebase.firestore.FieldValue.serverTimestamp(), ---> Doesnt work
     

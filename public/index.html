@@ -42,7 +42,7 @@
   <body>
 
     <div id="message">
-      <h2 id="currentUser">Welcome to Who Cares! We're happy you're here.</h2>
+      <h2 id="currentUser"></h2>
       <h5 id="profilePage"></h5>
       <button type="button" class="btn btn-dark" id="sign-in" onclick="signIn()">Sign In</button>
       <button type="button" class="btn btn-dark" id="sign-out" onclick="signOut()" hidden>Sign Out</button>
@@ -123,7 +123,7 @@
             } else { // User is signed out!
                 document.getElementById("sign-in").hidden = false;
                 document.getElementById("sign-out").hidden = true;
-                document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
+                document.getElementById("currentUser").innerHTML = "Welcome to Who Cares! We're happy you're here. Sign in below.";
                 document.getElementById("profilePage").hidden = true;
             }
         }
