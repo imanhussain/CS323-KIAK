@@ -66,7 +66,8 @@
         Name: <span id="name"></span>
       <!--<p>
       User ID:  <span id="user-id"></span>-->
-      <button id="following" onclick="follow()">Follow</button>
+      <button id="following" onclick="follow()" hidden>Follow</button>
+      <button id="unfollowing" onclick="unfollow()" hidden>Unfollow</button>
       <p>
         Profession: <span id="profession"></span>
       <p>
@@ -125,20 +126,6 @@
         firebase.auth().signOut();
       }
         
-//      function follow() {
-//          var db = firebase.firestore(); //need this to access our database
-//          const increment = firebase.firestore.FieldValue.increment(1);
-//          var vals = window.location.search.split("="); //split profile html to grab user's id
-//          db.collection("users").doc(vals[1]).onSnapshot(function (doc) {
-//              var count = doc.data().connection_count;
-//              var currentUser = firebase.auth().currentUser.uid;
-//              //doc.update({user_connections: {count: currentUser}})
-//              //doc.data().user_connections.update({count: currentUser})
-//              doc.update({user_connections: firebase.firestore.FieldValue.arrayUnion(currentUser)});
-//              doc.update({count: increment});
-//          });
-//      }
-        
       function follow() {
           var db = firebase.firestore(); //need this to access our database
           var vals = window.location.search.split("="); //split profile html to grab user's id
@@ -148,21 +135,34 @@
           var currentUserID = firebase.auth().currentUser.uid;
           var currentUserRef = db.collection("users").doc(currentUserID);
           
-          const increment = firebase.firestore.FieldValue.increment(1); 
+          //const increment = firebase.firestore.FieldValue.increment(1); 
           
 //          //updating follower database
 //          followRef.update({user_connections: firebase.firestore.FieldValue.arrayUnion(currentUserID)});
 //          followRef.update({connection_count: increment});
           
-          //updating current user database
+          //updating current user database 
           currentUserRef.update({user_connections: firebase.firestore.FieldValue.arrayUnion(vals[1])});
-          currentUserRef.update({connection_count: increment});
+//          currentUserRef.update({connection_count: increment});
+          
+          db.collection("users").doc(currentUserID).onSnapshot(function (doc) {
+              currentUserRef.update({connection_count: doc.data().user_connections.length});
+          });
         }
                 
         
-//      function unfollow() {
-//          
-//      }
+      function unfollow() {
+          var db = firebase.firestore(); //need this to access our database
+          var vals = window.location.search.split("="); //split profile html to grab user's id
+          var followRef = db.collection("users").doc(vals[1]);
+          //current user info
+          var currentUserID = firebase.auth().currentUser.uid;
+          var currentUserRef = db.collection("users").doc(currentUserID);
+          currentUserRef.update({user_connections: firebase.firestore.FieldValue.arrayRemove(vals[1])});
+          db.collection("users").doc(currentUserID).onSnapshot(function (doc) {
+              currentUserRef.update({connection_count: doc.data().user_connections.length});
+          });
+      }
         
 
       function dailyReact(){
@@ -199,9 +199,8 @@
                 //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
                 db.collection("users").doc(docs).onSnapshot(function(newDoc) {
                     document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
-          });
-            })
-
+                });
+            });
         })
 
         /*collection("user_details").get().then(function(querySnapshot) {
@@ -228,7 +227,8 @@
         if (user) { // User is signed in!
           document.getElementById("sign-in").hidden = true;
           document.getElementById("sign-out").hidden = false;
-
+          document.getElementById("connection").hidden = false;
+          
           //personalize the welcome screen with user's name
           var currentUser = firebase.auth().currentUser.displayName;
           document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
@@ -236,10 +236,25 @@
 
           var db = firebase.firestore();
           document.getElementById("profilePage").hidden = false;
+            
+          var vals = window.location.search.split("="); //get user ID of other people
 
           //link to the user's profile - do we need this?
-          db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
-            profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+          db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(docs) {
+              profilePage.innerHTML = "<a href='profile.html?id="+docs.data().user_id+"'>" + docs.data().username +"</a>";
+              
+              var connectionsArray = docs.data().user_connections;
+              
+              if (connectionsArray.includes(vals[1])) {
+                  document.getElementById("following").hidden = true;
+                  document.getElementById("unfollowing").hidden = false;
+              }
+                                                                                 
+              else {
+                document.getElementById("following").hidden = false;
+                document.getElementById("unfollowing").hidden = true;
+              }
+    
           });
 
           /*var formData = document.getElementById("dataAddedByUser").value;
@@ -249,14 +264,18 @@
             });
             */
           document.getElementById("people-card").hidden = false;
+            
 
         } else { // User is signed out!
           document.getElementById("sign-in").hidden = false;
           document.getElementById("sign-out").hidden = true;
+          document.getElementById("following").hidden = true;
+          document.getElementById("unfollowing").hidden = true;
           //show generic welcome page, not customized
           document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
           document.getElementById("profilePage").hidden = true;
           document.getElementById("people-card").hidden = true;
+          document.getElementById("connection").hidden = true;
         }
       }
 
