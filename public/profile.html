@@ -49,7 +49,7 @@
       </button>
       <hr>
     </div>
-      
+
     <!--
     NOTE: Because our system isn't fully functional yet due to issues with <thead>
       database, there is information typed in manually that would be pulled from
@@ -74,7 +74,7 @@
       <p>
         Date Joined: <span id="date_joined"></span>
     </div>
-    
+
     <!-- need to get this part to work!!! -->
     <div id="my-connections">
       <p>
@@ -84,9 +84,9 @@
         <form>
             Enter Information to be Added to the Firestore Database:
             <input id="dataAddedByUser" type="text" name="dataForFirestore">
-        </form> 
+        </form>
     </div>-->
-      
+
         <!-- ******************************************* -->
 
     <div id="user_history">
@@ -104,14 +104,13 @@
       <h5> by Damien Cave (New York Times) </h5>
       <!-- will incorportate author, source pulled from daily_article -->
 
-      <!-- in our final design, these won't be buttons but rather symbols (for now, buttons) --> 
-      <button id="react1">
-      	Got Me Thinkin'
-      </button>
+      <!-- in our final design, these won't be buttons but rather symbols (for now, buttons) -->
 
-      <button id="react2">
-      	Right On Target
-      </button>
+      <button type="button" id="Right on target" class="btn btn-outline-primary" onclick="dailyReact()">Right on target</button>
+      <button type="button" id="Meh" class="btn btn-outline-secondary" onclick="dailyReact()">Meh</button>
+      <button type="button" id="I'm confused" class="btn btn-outline-success" onclick="dailyReact()">I'm confused</button>
+      <button type="button" id="Hot take" class="btn btn-outline-danger" onclick="dailyReact()">Hot take</button>
+      <button type="button" id="Got me thinking" class="btn btn-outline-warning" onclick="dailyReact()">Got me thinking</button>
     </div>
 
     <script>
@@ -165,6 +164,19 @@
 //          
 //      }
         
+
+      function dailyReact(){
+          //console.log("hooray!");
+          var dailyReact = event.srcElement.id;
+          var dailyReactDate= new Date()
+      dailyAnswerGetDate =  dailyReactDate.getDate()
+      dailyAnswerGetDay =  dailyReactDate.getDay()
+      dailyAnswerGetYear = dailyReactDate.getFullYear()
+          alert ("You reacted "+ dailyReact+ " to the article for "+ dailyReactDate); //change to "you've selected this as ur dot today!"
+
+      }
+
+
       //where the magic happens
       document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
@@ -182,16 +194,16 @@
         //trying to get the user_connections from the subcollection of user_connections
         //may have to switch to a map/array in the user's document instead
         db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
-            
+
             querySnapshot.data().user_connections.forEach(function(docs) {
                 //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
                 db.collection("users").doc(docs).onSnapshot(function(newDoc) {
                     document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
           });
             })
-            
+
         })
-          
+
         /*collection("user_details").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(docs) {
             // doc.data() is never undefined for query doc snapshots
@@ -229,7 +241,7 @@
           db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
             profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
           });
-            
+
           /*var formData = document.getElementById("dataAddedByUser").value;
           var dbRef = db.collection("users").doc(firebase.auth().currentUser.uid);
             dbRef.update({
