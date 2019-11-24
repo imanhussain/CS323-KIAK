@@ -1,34 +1,80 @@
+/*
+
+  CS323 Who Cares Style Sheet
+
+*/
+
+body {
+  background-color: white;
+}
+
+.navbar-brand {
+  font-family: "Lucida Grande", Monaco, monospace;
+}
+
+.navbar-nav {
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.pageHeader {
+  background-color: lightgrey;
+  margin: 10px;
+  padding: 10px;
+
+  width: 1000px;
+}
+
+.title {
+  color: black;
+  font-family: "Lucida Grande", Monaco, monospace;
+}
+
+.subtitle {
+  color: black;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.connectionsWeb{
+  background-color: red;
+  margin: 10px;
+  padding: 10px;
+
+  width: 700px;
+  height: 500px;
+}
+
+.page {
+  background-color: green;
+  width: 900px;
+  margin: 0 auto;
+}
+
+.connectionsList{
+  background-color: blue;
+  margin: 10px;
+  padding: 10px;
+
+  width: 700px;
+  height: 500px;
+
+}
+
+/*
+below is code that was here before.... NO clue what it does so let's nix it when we can
 
 body {color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-
 #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-
 #message h2 { color: black; font-weight: bold; font-size: 16px; margin: 0 0 8px; text-align: center;}
-
 #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-
 #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-
 #message a { display: block; text-align: center; text-transform: uppercase; text-decoration: none; color: white; padding-: 16px; border-radius: 4px; }
-
-#message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-
+#message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); } */
 /* #message {display: flex; justify-content: center;}  */
-
-#load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-
-#welcome { margin-left: 20px; margin-right: 50px; border: 2px solid black;border-radius: 5px; padding-bottom: 20px; padding-top: 20px;}
-
+/* #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; } */
+/* #welcome { margin-left: 20px; margin-right: 50px; border: 2px solid black;border-radius: 5px; padding-bottom: 20px; padding-top: 20px;}
 #connection-info { margin-left: 50px; border: 2px solid black;border-radius: 5px; padding-bottom: 20px; padding-top: 20px;}
-
 @media (max-width: 600px) {
   body, #message { margin-top: 0; background: white; box-shadow: none; }
   body { border-top: 16px solid #ffa100; }
   #welcome {color: black; font-weight: bold; font-size: 16px;}
-
-.profilePage {background-color: #8bf0ba }
-.connectionsPage { background-color: #0e0fed }
-.dotsPage { background-color: #94f0f1}
-.aboutPage { background-color: #ffdc6a}
-.homePage { background-color: #ffdc6a }
-.bookmarksPage { background-color: #f2b1d8 }
+*/
