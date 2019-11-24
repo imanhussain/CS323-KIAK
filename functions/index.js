@@ -6,13 +6,18 @@ admin.initializeApp();
 exports.setupUsers = functions.auth.user().onCreate(async (user) => {
   var fullName = user.displayName || 'Anonymous';
   //var photo = user.photoURL || 'None';
+  var creationDate= new Date();
   await admin.firestore().collection('users').doc(user.uid).set({
     username: fullName,
     user_id: user.uid,
     profession: "Unspecified",
     connection_count: 0,
-    date_joined: "Insert date here",
-    user_connections: []
+    date_joined: creationDate,
+    user_connections: [],
+    daily_article: {article_id: "",
+                    is_bookmarked: false, 
+                    is_read: false, 
+                    reactions: []}
     //profile_pic: photo,
     //date_joined: firebase.firestore.FieldValue.serverTimestamp(), ---> Doesnt work
     
