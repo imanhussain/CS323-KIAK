@@ -8,6 +8,34 @@ body {
   background-color: white;
 }
 
+/**** page-specific body classes-- for changing colors mainly ****/
+
+body.homePage {
+  /* background-color: white; */
+}
+
+body.profilePage {
+  /* background-color: white; */
+}
+
+body.connectionsPage{
+  background-color: lightcyan;
+}
+
+body.bookmarksPage {
+  /* background-color: white; */
+}
+
+body.dotsPage {
+  /* background-color: white; */
+}
+
+body.aboutPage {
+  /* background-color: white; */
+}
+
+/***** nav bar ******** for font/color changes ********/
+
 .navbar-brand {
   font-family: "Lucida Grande", Monaco, monospace;
 }
@@ -16,12 +44,17 @@ body {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+/***** header/body content of pages ********/
+
 .pageHeader {
-  background-color: lightgrey;
+  background-color: white;
   margin: 10px;
   padding: 10px;
 
-  width: 1000px;
+  width: 1660px;
+  float: left;
+
+  border-style: outset;
 }
 
 .title {
@@ -34,41 +67,80 @@ body {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-.connectionsWeb{
-  background-color: red;
-  margin: 10px;
-  padding: 10px;
-
-  width: 700px;
-  height: 500px;
+.sectionTitle {
+  color: black;
+  font-family: "Lucida Grande", Monaco, monospace;
 }
 
-.page {
-  background-color: #8bf0ba;
-  width: 900px;
+.sectionBody {
+  color: black;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+/******** home page ***********/
+#homeMargin {
+  width: 1600px;
   margin: 0 auto;
 }
 
-.connectionsList{
-  background-color: blue;
+/******** profile page ***********/
+#profileMargin {
+  width: 1600px;
+  margin: 0 auto;
+}
+
+/******** connections page ***********/
+
+#connectionsMargin {
+  width: 1500px;
+  margin: 0 auto;
+}
+
+.connectionsWeb {
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
   margin: 10px;
   padding: 10px;
+  border-style: outset;
+  border-width: 5px;
 
   width: 700px;
-  height: 500px;
+  height: 650px;
+  float: left;
+}
+
+.connectionsList{
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
+  margin: 10px;
+  padding: 10px;
+  float: right;
+  border-style: outset;
+  border-width: 5px;
+
+  width: 700px;
+  height: 650px;
 
 }
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 3;
-  }
-  @include media-breakpoint-only(xl) {
-    column-count: 3;
-  }
+/******** bookmarks page ***********/
+#bookmarksMargin {
+  width: 1800px;
+  margin: 0 auto;
 }
 
-.btn {margin: 10px}
+/******** dots page ***********/
+#dotsMargin {
+  width: 1600px;
+  margin: 0 auto;
+}
+
+/******** about page ***********/
+#aboutMargin {
+  width: 1600px;
+  margin: 0 auto;
+}
+
 /*
 below is code that was here before.... NO clue what it does so let's nix it when we can
 
