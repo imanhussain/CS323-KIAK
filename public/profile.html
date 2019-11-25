@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Who Cares: Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
@@ -122,12 +123,11 @@
       <!-- will incorportate author, source pulled from daily_article -->
 
       <!-- in our final design, these won't be buttons but rather symbols (for now, buttons) -->
-
-      <button type="button" id="Right on target" class="btn btn-outline-primary" onclick="dailyReact()">Right on target</button>
-      <button type="button" id="Meh" class="btn btn-outline-secondary" onclick="dailyReact()">Meh</button>
-      <button type="button" id="I'm confused" class="btn btn-outline-success" onclick="dailyReact()">I'm confused</button>
-      <button type="button" id="Hot take" class="btn btn-outline-danger" onclick="dailyReact()">Hot take</button>
       <button type="button" id="Got me thinking" class="btn btn-outline-warning" onclick="dailyReact()">Got me thinking</button>
+      <button type="button" id="Right on target" class="btn btn-outline-primary" onclick="dailyReact()">I'm confused</button>
+      <button type="button" id="Meh" class="btn btn-outline-secondary" onclick="dailyReact()">Meh</button>
+      <button type="button" id="I'm confused" class="btn btn-outline-success" onclick="dailyReact()">Right on target</button>
+      <button type="button" id="Hot take" class="btn btn-outline-danger" onclick="dailyReact()">Hot take</button>
     </div>
 
     <script>
@@ -219,7 +219,7 @@
                     document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
                 });
             });
-                
+
 //            var connectionsArray = querySnapshot.data().user_connections;
 //            document.getElementById("connection").innerHTML = connectionsArray;
         });
