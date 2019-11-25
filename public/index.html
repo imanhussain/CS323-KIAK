@@ -123,12 +123,20 @@
                     //console.log("hooray!");
                     var dailyAnswer = event.srcElement.id;
                     var dailyAnswerDate= new Date()
-                dailyAnswerGetDate =  dailyAnswerDate.getDate()
-                dailyAnswerGetDay =  dailyAnswerDate.getDay()
-                dailyAnswerGetYear = dailyAnswerDate.getFullYear()
+                    var dailyAnswerGetDate =  dailyAnswerDate.getDate();
+                    var dailyAnswerGetDay =  dailyAnswerDate.getDay();
+                    var dailyAnswerGetYear = dailyAnswerDate.getFullYear();
+                    var dailyAnswerGetMonth = dailyAnswerDate.getMonth();
+                    
                     alert ("You selected "+ dailyAnswer+ " for your daily dot answer on "+ dailyAnswerDate); //change to "you've selected this as ur dot today!"
-
+                    
+                    var db = firebase.firestore(); //need this to access our database
+                    var currentUserID = firebase.auth().currentUser.uid;
+                    var currentUserDetailsRef = db.collection("users").doc(currentUserID).collection("user_details").doc("user_dot_history");
+                    
+                    currentUserDetailsRef.update({[dailyAnswerGetYear]: {[dailyAnswerGetMonth]: {[dailyAnswerGetDate]: dailyAnswer}}});
                 }
+        
         function authStateObserver(user) {
             if (user) { // User is signed in!
                 document.getElementById("sign-in").hidden = true;

@@ -7,6 +7,9 @@ exports.setupUsers = functions.auth.user().onCreate(async (user) => {
   var fullName = user.displayName || 'Anonymous';
   //var photo = user.photoURL || 'None';
   var creationDate= new Date();
+  var creationDateYear = creationDate.getFullYear();
+  var creationDateMonth = creationDate.getMonth();
+  var creationDateDay = creationDate.getDate();
   await admin.firestore().collection('users').doc(user.uid).set({
     username: fullName,
     user_id: user.uid,
@@ -25,6 +28,8 @@ exports.setupUsers = functions.auth.user().onCreate(async (user) => {
     profile_pic: photo,
     date_joined: user.metaData.creationDate*/
   });
+  await admin.firestore().collection('users').doc(user.uid).collection("user_details").doc("user_dot_history").set({
+    });
 /*    await admin.firestore().collection('users').doc(user.uid).collection("user_connections").doc("info").set({
         connection_count: 0,
     });  */
