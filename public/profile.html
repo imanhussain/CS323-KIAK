@@ -38,9 +38,10 @@
       </div>
     </nav>
 
+  <div id = profileMargin>
     <!-- Sign-in/out box  -->
     <div id="message">
-      <h2 id="currentUser">Hello </h2>
+      <h2 id="currentUser">Hello, </h2>
       <h5 id="profilePage"></h5>
       <button id="sign-in" onclick="signIn()">
       	Sign-in
@@ -62,26 +63,36 @@
     <!-- Information about the user -->
     <!-- inputs put in before the <span id> are to be deleted; just to get
     a sense of the kind of information that would be displayed-->
-    <div id="people-card">
-      <br>
-        Name: <span id="name"></span>
-      <!--<p>
-      User ID:  <span id="user-id"></span>-->
-      <button id="following" onclick="follow()" hidden>Follow</button>
-      <button id="unfollowing" onclick="unfollow()" hidden>Unfollow</button>
-      <p>
-        Profession: <span id="profession"></span>
-      <p>
-        Connections: <span id="connection_count"></span>
-      <p>
-        Date Joined: <span id="date_joined"></span>
-    </div>
+
+      <div id="people-card">
+
+        <div class= "profilePic">
+          <img src="starterProfPic.png" height: "300" width: "300">
+        </div>
+
+        <div class= "userAbout">
+          <!-- <br> -->
+            <h4 class="sectionTitle">Name: <span id="name"></span></h4>
+          <!--<p>
+          User ID:  <span id="user-id"></span>-->
+            <h4 class="sectionBody">Profession: <span id="profession"></span></h4>
+            <h4 class="sectionBody">Connections: <span id="connection_count"></span></h4>
+            <h4 class="sectionBody">Date Joined: <span id="date_joined"></span></h4>
+            <br>
+            <button id="following" onclick="follow()" hidden>Follow</button>
+            <button id="unfollowing" onclick="unfollow()" hidden>Unfollow</button>
+        </div>
+
+        <div class="userConnectButton">
+            <button id="connectButton">See This User's Connections</button>
+        </div>
+      </div>
 
     <!-- need to get this part to work!!! -->
-    <div id="my-connections">
+    <!-- <div id="my-connections">
       <p>
         My Connection List: <span id="connection"></span>
-    </div>
+    </div> -->
 <!--    <div>
         <form>
             Enter Information to be Added to the Firestore Database:
@@ -91,28 +102,75 @@
 
         <!-- ******************************************* -->
 
-    <div id="user_history">
-      <br>
-      <h2> Wendy's History </h2>
-      <!-- this is an example post of what the activity feed might look like.
-      once we restructure the database, we will get a better sense of where/how
-      this information will be stored -->
+      <div id="user_history">
+        <h2 class="sectionTitle" align="center"> Wendy's History </h2>
+        <br>
 
-      <h3> Oct. 28, 2019 </h3>
-      <h4> Daily Article for October 28th, 2019: </h4>
-      <!-- will incorportate date pulled from daily_article -->
-      <h4> "Shooting in Sydney Raises Questions About Gun Control"</h4>
-      <!-- will incorportate title pulled from daily_article -->
-      <h5> by Damien Cave (New York Times) </h5>
-      <!-- will incorportate author, source pulled from daily_article -->
+        <!-- THIS IS WHERE YOU WOULD PULL INFO FOR AN ARTICLE!!!!! DUMMY ARTICLE CODE BELOW
 
-      <!-- in our final design, these won't be buttons but rather symbols (for now, buttons) -->
-      <button type="button" id="Got me thinking" class="btn btn-outline-warning" onclick="dailyReact()">Got me thinking</button>
-      <button type="button" id="Right on target" class="btn btn-outline-primary" onclick="dailyReact()">I'm confused</button>
-      <button type="button" id="Meh" class="btn btn-outline-secondary" onclick="dailyReact()">Meh</button>
-      <button type="button" id="I'm confused" class="btn btn-outline-success" onclick="dailyReact()">Right on target</button>
-      <button type="button" id="Hot take" class="btn btn-outline-danger" onclick="dailyReact()">Hot take</button>
+        !!!!!! BG ACCORDING TO TOPIC !!!!!!
+        <div class="card text-white bg-primary" class= "article" style="max-width: 45rem;">
+          <div class="card-header">!!!!!!DATE!!!!!</div>
+          <div class="card-body">
+            <h5 class="card-title">!!!!!! ARTICLE TITLE !!!!!!!!</h5>
+            <span class="badge">!!!!! USER REACTION!!!!!</span>
+            <a href=!!!!!LINK!!!!!!1!!" class="badge badge-light">Article link</a>
+
+          </div>
+      -->
+
+        <div class="card text-white bg-primary" class= "article" style="max-width: 45rem;">
+          <div class="card-header">October 28, 2019</div>
+          <div class="card-body">
+            <h5 class="card-title">Shooting in Sydney Raises Questions About Gun Control</h5>
+            <span class="badge">Right on target</span>
+            <a href="https://www.nytimes.com/2019/10/02/world/australia/sydney-shooting-gun-control.html?fbclid=IwAR03eGKFT2B4DYjDrAMo1FUk2Y3RSqoTnf6tOzvfCMhK6UyOXSyi8BWAehg" class="badge badge-light">Article link</a>
+
+          </div>
+        </div>
+
+
+        <div class="card text-white bg-danger" class= "article" style="max-width: 45rem;">
+          <div class="card-header ">October 27, 2019</div>
+          <div class="card-body">
+            <h5 class="card-title">The Health 202: Obamacare is getting more affordable under the Trump administration</h5>
+            <span class="badge">Meh</span>
+            <a href="https://www.washingtonpost.com/news/powerpost/paloma/the-health-202/2019/10/22/the-health-202-obamacare-is-getting-more-affordable-under-the-trump-administration/5dadf22d88e0fa3155a7128d/" class="badge badge-light">Article link</a>
+          </div>
+        </div>
+
+
+        <div class="card text-white bg-info" class= "article" style="max-width: 45rem;">
+          <div class="card-header">October 26, 2019</div>
+          <div class="card-body">
+            <h5 class="card-title">DeVos Held In Contempt Of Court For Enforcing Loans On Defrauded College Students</h5>
+            <span class="badge">Got me thinking</span>
+            <a href="https://www.npr.org/2019/10/25/773334681/devos-held-in-contempt-of-court-ed-department-fined-100-000-in-student-loan-case" class="badge badge-light">Article link</a>
+          </div>
+        </div>
+
+
+        <div class="card text-black bg-warning" class= "article" style="max-width: 45rem;">
+          <div class="card-header ">October 25, 2019</div>
+          <div class="card-body">
+            <h5 class="card-title">Federal judge in Chicago stops Trump administration rule aimed at denying green cards to immigrants on public benefits</h5>
+            <span class="badge">Right on target</span>
+            <a href="https://www.chicagotribune.com/news/breaking/ct-trump-administration-immigrant-public-aid-rule-cook-county-20191015-dg25lfeztrgjpjq22bwz5efanu-story.html?fbclid=IwAR0h_I5bb7b8ODn-MvGus9ORgkdqiT7VR3_PCfDnvSGWzammNsI86q7RvCw" class="badge badge-light">Article link</a>
+          </div>
+        </div>
+
+
+        <div class="card text-white bg-success" class= "article" style="max-width: 45rem;">
+          <div class="card-header">October 24, 2019</div>
+          <div class="card-body">
+            <h5 class="card-title">Is it too late to do anything about climate change?</h5>
+            <span class="badge">I'm confused</span>
+            <a href="https://www.bostonglobe.com/opinion/2019/10/01/too-late-anything-about-climate-change/5rmqYHZf1xi6T3dRLnmAsJ/story.html" class="badge badge-light">Article link</a>
+          </div>
+        </div>
+
     </div>
+
 
     <script>
 
