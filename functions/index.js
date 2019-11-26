@@ -17,7 +17,7 @@ exports.setupUsers = functions.auth.user().onCreate(async (user) => {
     connection_count: 0,
     date_joined: creationDate,
     user_connections: [],
-    daily_article: {article_id: "",
+    daily_article: {article_id: "U1jQF2JSTFu50Lpjbyzr",
                     is_bookmarked: false, 
                     is_read: false, 
                     reactions: []}

@@ -84,7 +84,7 @@
         </div>
 
         <div class="userConnectButton">
-            <button id="connectButton">See This User's Connections</button>
+            <p id="viewConnections"></p>
         </div>
       </div>
 
@@ -208,7 +208,6 @@
           });
         }
 
-
       function unfollow() {
           var db = firebase.firestore(); //need this to access our database
           var vals = window.location.search.split("="); //split profile html to grab user's id
@@ -232,6 +231,17 @@
           dailyAnswerGetYear = dailyReactDate.getFullYear()
           alert ("You reacted "+ dailyReact+ " to the article for "+ dailyReactDate); //change to "you've selected this as ur dot today!"
       }
+        
+    
+        function intializeApp(){
+	       //get the HTML element where you want to print the name
+            var db = firebase.firestore();
+            var vals = window.location.search.split("="); //split profile html to grab user's id
+            var connect = document.getElementById("viewConnections");
+            db.collection("users").doc(vals[1]).onSnapshot(function(document) {
+                connect.innerHTML = "<a href='connections.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+            });
+        }
 
       //where the magic happens
       document.addEventListener('DOMContentLoaded', function() {
@@ -253,9 +263,9 @@
 
             querySnapshot.data().user_connections.forEach(function(docs) {
                 //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
-                document.getElementById("connection").innerHTML = "";
+                //document.getElementById("connection").innerHTML = "";
                 db.collection("users").doc(docs).onSnapshot(function(newDoc) {
-                    console.log(newDoc.data().username)
+                    //console.log(newDoc.data().username)
                     document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
                 });
             });

@@ -134,22 +134,23 @@
             firebase.auth().signOut();
         }
         
-//        function addArticle(db){
-//            var currentUserID = firebase.auth().currentUser.uid;
-//            db.collection("users").doc(currentUserID).onSnapshot(function (doc) {
-//                var articleID = doc.data().daily_article.article_id;
-//                db.collection("article_history").doc(articleID).onSnapshot(function(newDoc) {
-//                    console.log(newDoc.data().title)
-//                    document.getElementById("article-title").innerHTML = newDoc.data().title;
-//                    document.getElementById("article-author").innerHTML = newDoc.data().author;
-//                    document.getElementById("article-link").innerHTML = newDoc.data().link;
-//                    document.getElementById("article-source").innerHTML = newDoc.data().source;
-//                    document.getElementById("article").style.backgroundColor = newDoc.data().color;
-//                    document.getElementById("article-date").innerHTML = newDoc.data().date;
-//                    document.getElementById("article-topic").innerHTML= newDoc.data().topic;
-//                });
-//            });   
-//        }
+        function addArticle(db){
+            var currentUserID = firebase.auth().currentUser.uid;
+            db.collection("users").doc(currentUserID).onSnapshot(function (doc) {
+                var articleID = doc.data().daily_article;
+                console.log(articleID);
+                db.collection("article_history").doc(articleID).onSnapshot(function(newDoc) {
+                    console.log(newDoc.data().title)
+                    document.getElementById("article-title").innerHTML = newDoc.data().title;
+                    document.getElementById("article-author").innerHTML = newDoc.data().author;
+                    document.getElementById("article-link").innerHTML = newDoc.data().link;
+                    document.getElementById("article-source").innerHTML = newDoc.data().source;
+                    document.getElementById("article").style.backgroundColor = newDoc.data().color;
+                    document.getElementById("article-date").innerHTML = newDoc.data().date;
+                    document.getElementById("article-topic").innerHTML= newDoc.data().topic;
+                });
+            });   
+        }
 
         function dailyDot(){
             //console.log("hooray!");
@@ -167,7 +168,7 @@
             var currentUserDetailsRef = db.collection("users").doc(currentUserID).collection("user_details").doc("user_dot_history");
 
             currentUserDetailsRef.update({[dailyAnswerGetYear]: {[dailyAnswerGetMonth]: {[dailyAnswerGetDate]: dailyAnswer}}});
-            //addArticle(db);
+            addArticle(db);
         }
         
         function authStateObserver(user) {
@@ -176,7 +177,7 @@
                 document.getElementById("sign-out").hidden = false;
                 var currentUser = firebase.auth().currentUser.displayName;
                 document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
-                document.getElementById("name").innerHTML = "Hi, " + currentUser;
+                //document.getElementById("name").innerHTML = "Hi, " + currentUser;
                 var profilePage = document.getElementById("profilePage");
 
 
