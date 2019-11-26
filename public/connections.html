@@ -56,24 +56,77 @@
       <div class= "connectionsList">
         <h3>Connections List</h3>
         <!-- in put connection "list" underneath this comment! -->
-
-        <h5>A</h5>
-          <ul>
-            <li> Anna Aardvark </li>
-            <li> Arthur Anteater </li>
-          </ul>
-        <h5>B</h5>
-          <ul>
-            <li>Bobby Bat</li>
-            <li>Billie Bird</li>
-          </ul>
+<!--          <span id="connection"></span>-->
       </div>
 
     </div>
+      
+    <!-- Sign-in/out box  -->
+<!--
+    <div id="message">
+      <button id="sign-in" onclick="signIn()">
+      	Sign-in
+      </button>
+      <button id="sign-out" onclick="signOut()" hidden>
+      	Sign-out
+      </button>
+      <hr>
+    </div>
+-->
 
 <!-- source scrips for boostrap -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--
+<script>
+    //sign in and out functions
+      function signIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider);
+      }
+
+      function signOut() {
+        firebase.auth().signOut();
+      } 
+    
+    //where the magic happens
+      document.addEventListener('DOMContentLoaded', function() {
+        firebase.auth().onAuthStateChanged(authStateObserver);
+        var db = firebase.firestore(); //need this to access our database
+        //trying to get the user_connections from the subcollection of user_connections
+        //may have to switch to a map/array in the user's document instead
+        var vals = window.location.search.split("=");
+        db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
+            querySnapshot.data().user_connections.forEach(function(docs) {
+                document.getElementById("connection").innerHTML = "";
+                db.collection("users").doc(docs).onSnapshot(function(newDoc) {
+                    console.log(newDoc.data().username)
+                    document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
+                });
+            });
+        });
+                                                       
+        try {
+          let app = firebase.app()
+          let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    
+        function authStateObserver(user) {
+        if (user) { // User is signed in!
+            document.getElementById("sign-in").hidden = true;
+            document.getElementById("sign-out").hidden = false;
+            var currentUser = firebase.auth().currentUser.displayName;
+
+        } else { // User is signed out!
+            document.getElementById("sign-in").hidden = false;
+            document.getElementById("sign-out").hidden = true;
+        }
+    }
+</script>
+-->
   </body>
 </html>
