@@ -85,14 +85,15 @@
      and are saved for you to reference later on. Navigate to the "My Dots" page to see what you
      cared about last week, last month, or last year!</p>
         <button type="button" id="Gun Control" class="btn btn-outline-primary" onclick="dailyDot()">Gun Control</button>
-        <button type="button" id="Education" class="btn btn-outline-secondary" onclick="dailyDot()">Education</button>
+        <button type="button" id="Education" class="btn btn-outline-dark" onclick="dailyDot()">Education</button>
         <button type="button" id="Climate Change" class="btn btn-outline-success" onclick="dailyDot()">Climate Change</button>
         <button type="button" id="Healthcare" class="btn btn-outline-danger" onclick="dailyDot()">Healthcare</button>
         <button type="button" id="Immigration" class="btn btn-outline-warning" onclick="dailyDot()">Immigration</button>
+        <button type="button" id="Immigration" class="btn btn-outline-secondary" onclick="dailyDot()">Skip today</button>
   </div>
-  
-        
-        
+
+
+
   <div class="card-header">
     Daily Article
   </div>
@@ -170,7 +171,7 @@
             currentUserDetailsRef.update({[dailyAnswerGetYear]: {[dailyAnswerGetMonth]: {[dailyAnswerGetDate]: dailyAnswer}}});
             addArticle(db);
         }
-        
+
         function authStateObserver(user) {
             if (user) { // User is signed in!
                 document.getElementById("sign-in").hidden = true;

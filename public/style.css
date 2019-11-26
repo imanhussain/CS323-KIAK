@@ -62,7 +62,9 @@ button {
   width: 1500px;
   float: left;
 
-  border-style: outset;
+  border: solid;
+  border-color: lightgrey;
+  border-width: 3px;
 }
 
 .title {
@@ -90,6 +92,9 @@ button {
   width: 1600px;
   margin: 0 auto;
 }
+
+/* haven't touched CSS for home ie. activity feed yet--
+we won't until firebase is set! */
 
 /******** profile page ***********/
 #profileMargin {
@@ -148,7 +153,6 @@ button {
   padding: 5px;
 }
 
-
 /******** connections page ***********/
 
 #connectionsMargin {
@@ -161,8 +165,9 @@ button {
   font-family: "Lucida Grande", Monaco, monospace;
   margin: 10px;
   padding: 10px;
-  border-style: outset;
-  border-width: 5px;
+  /* border: solid;
+  border-color: lightgrey;
+  border-width: 3px; */
 
   width: 700px;
   height: 650px;
@@ -175,12 +180,12 @@ button {
   margin: 10px;
   padding: 10px;
   float: right;
-  border-style: outset;
-  border-width: 5px;
+  /* border: solid;
+  border-color: lightgrey;
+  border-width: 3px; */
 
   width: 700px;
   height: 650px;
-
 }
 
 /******** bookmarks page ***********/
@@ -197,15 +202,135 @@ button {
 
 /******** dots page ***********/
 #dotsMargin {
-  width: 1600px;
+  width: 1500px;
   margin: 0 auto;
 }
+
+.dotsWebView {
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
+  margin: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  padding-left: 50px;
+
+  width: 700px;
+  height: 650px;
+  float: left;
+}
+
+.dotsMonthlyView{
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
+  margin: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+  padding-left: 50px;
+  float: right;
+
+  width: 700px;
+  height: 650px;
+}
+
+.dotsCalendar {
+  background-color: transparent;
+  border-style: solid;
+  border-color: whitesmoke;
+  border-width: 5px;
+
+  padding: 30px;
+  align: center;
+  width: 600px;
+  height: 500px;
+}
+
+.hc_circle {
+    width: 25px;
+    height: 25px;
+    background: #d9534f;
+    border-radius: 50%
+    }
+
+.gc_circle {
+    width: 25px;
+    height: 25px;
+    background: #0275d8;
+    border-radius: 50%
+    }
+
+.cc_circle {
+  width: 25px;
+  height: 25px;
+  background: #5cb85c;
+  border-radius: 50%
+  }
+
+.edu_circle {
+  width: 25px;
+  height: 25px;
+  background: #5bc0de;
+  border-radius: 50%
+  }
+
+.im_circle {
+  width: 25px;
+  height: 25px;
+  background: #f0ad4e;
+  border-radius: 50%
+  }
+
+.pass_circle {
+    width: 25px;
+    height: 25px;
+    background: #6d757d;
+    border-radius: 50%
+  }
 
 /******** about page ***********/
 #aboutMargin {
   width: 1600px;
   margin: 0 auto;
+}
 
+#aboutMargin {
+  width: 1500px;
+  margin: 0 auto;
+}
+
+.aboutWeb {
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
+  margin: 10px;
+  /* padding: 10px; */
+  align: center;
+
+
+  width: 700px;
+  height: 650px;
+  float: left;
+}
+
+.aboutList{
+  background-color: white;
+  font-family: "Lucida Grande", Monaco, monospace;
+  margin: 10px;
+  padding: 10px;
+  float: right;
+
+  width: 700px;
+  height: 800px;
+}
+
+.menu-container{
+  display:flex;
+}
+
+#whoCaresLogo{
+  width: 600px;
+  margin-left: 40px;
+  margin-top: 100px;
 }
 
 /*
