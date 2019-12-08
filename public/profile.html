@@ -28,12 +28,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+<!--
           <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/profile">Profile</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections">Connections</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/bookmarks">Bookmarks</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots">Dots</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about">About</a>
+-->
+            
+          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com">Home</a>
+          <span id="profile_link"></span>
+          <span id="connections_link"></span>
+          <span id="bookmarks_link"></span>
+          <span id="dots_link"></span>
+          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about.html">About</a>
         </div>
       </div>
     </nav>
@@ -254,7 +263,8 @@
           document.getElementById("name").innerHTML = doc.data().username;
           //document.getElementById("user-id").innerHTML = doc.data().user_id;
           document.getElementById("profession").innerHTML = doc.data().profession;
-          document.getElementById("connection_count").innerHTML = doc.data().connection_count;
+//          document.getElementById("connection_count").innerHTML = doc.data().connection_count;
+          document.getElementById("connection_count").innerHTML = "<span>" + "<a href='connections.html?id="+doc.data().user_id+"'>" + doc.data().connection_count +"</a>" + "</span>";
           document.getElementById("date_joined").innerHTML = (doc.data().date_joined).toDate();
         });
 
@@ -305,6 +315,10 @@
           var currentUser = firebase.auth().currentUser.displayName;
           document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
           var profilePage = document.getElementById("profilePage");
+          var profileLink = document.getElementById("profile_link");
+          var connectionsLink = document.getElementById("connections_link");
+          var bookmarksLink = document.getElementById("bookmarks_link");
+          var dotsLink = document.getElementById("dots_link");
 
           var db = firebase.firestore();
           document.getElementById("profilePage").hidden = false;
@@ -326,6 +340,11 @@
                 document.getElementById("following").hidden = false;
                 document.getElementById("unfollowing").hidden = true;
               }
+              
+              profileLink.innerHTML = "<a class='nav-item nav-link active' href='profile.html?id="+docs.data().user_id+"'>Profile<span class='sr-only'>(current)</span></a>"
+              connectionsLink.innerHTML = "<a class='nav-item nav-link' href='connections.html?id="+docs.data().user_id+"'>Connections</a>"
+              bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+docs.data().user_id+"'>Bookmarks</a>"
+              dotsLink.innerHTML = "<a class='nav-item nav-link' href='dots.html?id="+docs.data().user_id+"'>Dots</a>"
 
           });
 

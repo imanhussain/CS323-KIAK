@@ -30,14 +30,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <span class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></span>
+          <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
           <span id="profile_link"></span>
           <span id="connections_link"></span>
           <span id="bookmarks_link"></span>
           <span id="dots_link"></span>
-          <!-- <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections.html">Connections</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/bookmarks.html">Bookmarks</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots.html">Dots</a> -->
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about.html">About</a>
         </div>
       </div>
@@ -104,10 +101,10 @@
         <h3 id="article-title"></h3>
         <p id="article-author"></p>
         <!-- <p id="article-link"></p> -->
-        <button type="button" id="article-link" class="btn btn-outline-primary" onclick="">Link</button>
         <p id="article-source"></p>
         <p id="article-date"></p>
         <p id="article-topic"></p>
+        <button type="button" id="article-link" class="btn btn-outline-primary" onclick="">Link</button>
   </div>
 </div>
 
@@ -148,10 +145,10 @@
                     console.log(newDoc.data().title)
                     document.getElementById("article-title").innerHTML = newDoc.data().title;
                     document.getElementById("article-author").innerHTML = newDoc.data().author;
-                    document.getElementById("article-link").onclick = newDoc.data().link;
+                    document.getElementById("article-link").onclick = "window.location.href= '"+newDoc.data().link+"';";
                     document.getElementById("article-source").innerHTML = newDoc.data().source;
                     document.getElementById("article").style.borderColor = newDoc.data().color;
-                    document.getElementById("article-date").innerHTML = newDoc.data().date;
+                    document.getElementById("article-date").innerHTML = (newDoc.data().date).toDate();
                     document.getElementById("article-topic").innerHTML= newDoc.data().topic;
                 });
             });
