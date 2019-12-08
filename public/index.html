@@ -30,11 +30,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/profile.html">Profile</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections.html">Connections</a>
+          <span class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></span>
+          <span id="profile_link"></span>
+          <span id="connections_link"></span>
+          <span id="bookmarks_link"></span>
+          <span id="dots_link"></span>
+          <!-- <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections.html">Connections</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/bookmarks.html">Bookmarks</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots.html">Dots</a>
+          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots.html">Dots</a> -->
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about.html">About</a>
         </div>
       </div>
@@ -98,9 +101,10 @@
     Daily Article
   </div>
   <div class="card-body" id="article" class="container-fluid">
-        <p id="article-title"></p>
+        <h3 id="article-title"></h3>
         <p id="article-author"></p>
-        <p id="article-link"></p>
+        <!-- <p id="article-link"></p> -->
+        <button type="button" id="article-link" class="btn btn-outline-primary" onclick="">Link</button>
         <p id="article-source"></p>
         <p id="article-date"></p>
         <p id="article-topic"></p>
@@ -134,23 +138,23 @@
         function signOut() {
             firebase.auth().signOut();
         }
-        
+
         function addArticle(db){
             var currentUserID = firebase.auth().currentUser.uid;
             db.collection("users").doc(currentUserID).onSnapshot(function (doc) {
-                var articleID = doc.data().daily_article;
+                var articleID = doc.data().daily_article.article_id;
                 console.log(articleID);
                 db.collection("article_history").doc(articleID).onSnapshot(function(newDoc) {
                     console.log(newDoc.data().title)
                     document.getElementById("article-title").innerHTML = newDoc.data().title;
                     document.getElementById("article-author").innerHTML = newDoc.data().author;
-                    document.getElementById("article-link").innerHTML = newDoc.data().link;
+                    document.getElementById("article-link").onclick = newDoc.data().link;
                     document.getElementById("article-source").innerHTML = newDoc.data().source;
-                    document.getElementById("article").style.backgroundColor = newDoc.data().color;
+                    document.getElementById("article").style.borderColor = newDoc.data().color;
                     document.getElementById("article-date").innerHTML = newDoc.data().date;
                     document.getElementById("article-topic").innerHTML= newDoc.data().topic;
                 });
-            });   
+            });
         }
 
         function dailyDot(){
@@ -169,7 +173,6 @@
             var currentUserDetailsRef = db.collection("users").doc(currentUserID).collection("user_details").doc("user_dot_history");
 
             currentUserDetailsRef.update({[dailyAnswerGetYear]: {[dailyAnswerGetMonth]: {[dailyAnswerGetDate]: dailyAnswer}}});
-            addArticle(db);
         }
 
         function authStateObserver(user) {
@@ -180,13 +183,23 @@
                 document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
                 //document.getElementById("name").innerHTML = "Hi, " + currentUser;
                 var profilePage = document.getElementById("profilePage");
-
+                var profileLink = document.getElementById("profile_link");
+                var connectionsLink = document.getElementById("connections_link");
+                var bookmarksLink = document.getElementById("bookmarks_link");
+                var dotsLink = document.getElementById("dots_link");
 
                 var db = firebase.firestore();
-                document.getElementById("profilePage").hidden = false;
+                profilePage.hidden = false;
                 db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(document) {
-                profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+                  profilePage.innerHTML = "<a href='profile.html?id="+document.data().user_id+"'>" + document.data().username +"</a>"
+                  profileLink.innerHTML = "<a class='nav-item nav-link' href='profile.html?id="+document.data().user_id+"'>Profile</a>"
+                  connectionsLink.innerHTML = "<a class='nav-item nav-link' href='connections.html?id="+document.data().user_id+"'>Connections</a>"
+                  bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+document.data().user_id+"'>Bookmarks</a>"
+                  dotsLink.innerHTML = "<a class='nav-item nav-link' href='dots.html?id="+document.data().user_id+"'>Dots</a>"
+                  //<a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/profile.html">Profile</a>
                 });
+
+                addArticle(db);
 
             } else { // User is signed out!
                 document.getElementById("sign-in").hidden = false;

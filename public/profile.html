@@ -41,7 +41,7 @@
   <div id = profileMargin>
     <!-- Sign-in/out box  -->
     <div id="message">
-      <h2 id="currentUser">Hello, </h2>
+      <h2 id="currentUser"></h2>
       <h5 id="profilePage"></h5>
       <button id="sign-in" onclick="signIn()">
       	Sign-in
@@ -51,6 +51,7 @@
       </button>
       <hr>
     </div>
+
 
     <!--
     NOTE: Because our system isn't fully functional yet due to issues with <thead>
@@ -168,7 +169,7 @@
             <a href="https://www.bostonglobe.com/opinion/2019/10/01/too-late-anything-about-climate-change/5rmqYHZf1xi6T3dRLnmAsJ/story.html" class="badge badge-light">Article link</a>
           </div>
         </div>
-
+      </div>
     </div>
 
 
@@ -231,8 +232,8 @@
           dailyAnswerGetYear = dailyReactDate.getFullYear()
           alert ("You reacted "+ dailyReact+ " to the article for "+ dailyReactDate); //change to "you've selected this as ur dot today!"
       }
-        
-    
+
+
         function intializeApp(){
 	       //get the HTML element where you want to print the name
             var db = firebase.firestore();
@@ -298,7 +299,7 @@
         if (user) { // User is signed in!
           document.getElementById("sign-in").hidden = true;
           document.getElementById("sign-out").hidden = false;
-          document.getElementById("connection").hidden = false;
+          //document.getElementById("connection").hidden = false;
 
           //personalize the welcome screen with user's name
           var currentUser = firebase.auth().currentUser.displayName;
@@ -335,6 +336,7 @@
             });
             */
           document.getElementById("people-card").hidden = false;
+          document.getElementById("user_history").hidden = false;
 
 
         } else { // User is signed out!
@@ -346,7 +348,8 @@
           document.getElementById("currentUser").innerHTML = "Welcome! Please sign in";
           document.getElementById("profilePage").hidden = true;
           document.getElementById("people-card").hidden = true;
-          document.getElementById("connection").hidden = true;
+          //document.getElementById("connection").hidden = true;
+          document.getElementById("user_history").hidden = true;
         }
       }
 
