@@ -31,7 +31,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com">Home</a>
           <span id="profile_link"></span>
           <span id="connections_link"></span>
           <span id="bookmarks_link"></span>
@@ -41,8 +41,21 @@
       </div>
     </nav>
 
+    <!-- Sign-in/out box  -->
+    <div id="message">
+      <h2 id="currentUser"></h2>
+      <h5 id="profilePage"></h5>
+      <button type="button" class="btn btn-dark" id="sign-in" onclick="signIn()">
+      	Sign-in
+      </button>
+      <button type="button" class="btn btn-dark" id="sign-out" onclick="signOut()" hidden>
+      	Sign-out
+      </button>
+      <hr>
+    </div>
+
     <div class= "pageHeader">
-      <h2 class="title">Connections</h2>
+      <h2 class="title" id="top-title">Connections</h2>
       <h5 class="subtitle">Your Friends on Who Cares</h5>
     </div>
 
@@ -54,28 +67,19 @@
       </div>
 
       <div class= "connectionsList">
-        <h3>Connections List</h3>
+        <h3 id="list">Connections List</h3>
         <!-- in put connection "list" underneath this comment! -->
           <span id="connection"></span>
       </div>
 
     </div>
 
-    <!-- Sign-in/out box  -->
-    <div id="message">
-      <button id="sign-in" onclick="signIn()">
-      	Sign-in
-      </button>
-      <button id="sign-out" onclick="signOut()" hidden>
-      	Sign-out
-      </button>
-      <hr>
-    </div>
 
 <!-- source scrips for boostrap -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <script>
     //sign in and out functions
       function signIn() {
@@ -87,26 +91,108 @@
         firebase.auth().signOut();
       }
 
+/*
+      //making the Web
+      // create a graph class
+class Graph {
+    // defining vertex array and
+    // adjacent list
+    constructor(noOfVertices)
+    {
+        this.noOfVertices = noOfVertices;
+        this.AdjList = new Map();
+    }
+
+    // functions to be implemented
+
+    // add vertex to the graph
+    addVertex(v)
+    {
+    // initialize the adjacent list with a
+    // null array
+        this.AdjList.set(v, []);
+    }
+
+    // add edge to the graph
+    addEdge(v, w)
+    {
+        // get the list for vertex v and put the
+        // vertex w denoting edge between v and w
+        this.AdjList.get(v).push(w);
+
+        // Since graph is undirected,
+        // add an edge from w to v also
+        this.AdjList.get(w).push(v);
+    }
+
+    // Prints the vertex and adjacency list
+    printGraph()
+    {
+        // get all the vertices
+        var get_keys = this.AdjList.keys();
+
+        // iterate over the vertices
+        for (var i of get_keys)
+    {
+            // great the corresponding adjacency list
+            // for the vertex
+            var get_values = this.AdjList.get(i);
+            var conc = "";
+
+            // iterate over the adjacency list
+            // concatenate the values into a string
+            for (var j of get_values)
+                conc += j + " ";
+
+            // print the vertex and its adjacency list
+            console.log(i + " -> " + conc);
+        }
+    }
+
+    // bfs(v)
+    // dfs(v)
+    }
+
+    // Using the above implemented graph class
+    var g = new Graph(6);
+    var vertices = [ 'A', 'B', 'C', 'D', 'E', 'F' ];
+
+    // adding vertices
+    for (var i = 0; i < vertices.length; i++) {
+        g.addVertex(vertices[i]);
+    }
+
+    // adding edges
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'D');
+    g.addEdge('A', 'E');
+    g.addEdge('B', 'C');
+    g.addEdge('D', 'E');
+    g.addEdge('E', 'F');
+    g.addEdge('E', 'C');
+    g.addEdge('C', 'F');
+
+    // prints all vertex and
+    // its adjacency list
+    // A -> B D E
+    // B -> A C
+    // C -> B E F
+    // D -> A E
+    // E -> A D F C
+    // F -> E C
+    g.printGraph(); */
+
+
     //where the magic happens
       document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var db = firebase.firestore(); //need this to access our database
-        //trying to get the user_connections from the subcollection of user_connections
-        //may have to switch to a map/array in the user's document instead
 
-        var profileLink = document.getElementById("profile_link");
-        var connectionsLink = document.getElementById("connections_link");
-        var bookmarksLink = document.getElementById("bookmarks_link");
-        var dotsLink = document.getElementById("dots_link");
-
+        //display user connections
         var vals = window.location.search.split("=");
         db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
-            document.getElementById("web").innerHTML = querySnapshot.data().username + "'s Web";
-
-            profileLink.innerHTML = "<a class='nav-item nav-link' href='profile.html?id="+querySnapshot.data().user_id+"'>Profile</a>"
-            connectionsLink.innerHTML = "<a class='nav-item nav-link active' href='connections.html?id="+querySnapshot.data().user_id+"'>Connections<span class='sr-only'>(current)</span></a>"
-            bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+querySnapshot.data().user_id+"'>Bookmarks</a>"
-            dotsLink.innerHTML = "<a class='nav-item nav-link' href='dots.html?id="+querySnapshot.data().user_id+"'>Dots</a>"
+            document.getElementById("web").innerHTML = querySnapshot.data().username.split(" ")[0] + "'s Web";
+            document.getElementById("list").innerHTML = querySnapshot.data().username.split(" ")[0] + "'s Connections List";
 
             querySnapshot.data().user_connections.forEach(function(docs) {
                 //document.getElementById("connection").innerHTML = "";
@@ -128,13 +214,35 @@
 
         function authStateObserver(user) {
         if (user) { // User is signed in!
+            var db = firebase.firestore();
+
             document.getElementById("sign-in").hidden = true;
             document.getElementById("sign-out").hidden = false;
+
             var currentUser = firebase.auth().currentUser.displayName;
+            document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+            // document.getElementById("top-title").innerHTML = currentUser.split(" ")[0] + "'s Connections";
+            var profilePage = document.getElementById("profilePage");
+
+            var profileLink = document.getElementById("profile_link");
+            var connectionsLink = document.getElementById("connections_link");
+            var bookmarksLink = document.getElementById("bookmarks_link");
+            var dotsLink = document.getElementById("dots_link");
+
+            db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(docs) {
+                profilePage.innerHTML = "<a href='profile.html?id="+docs.data().user_id+"'>" + docs.data().username +"</a>";
+
+                profileLink.innerHTML = "<a class='nav-item nav-link' href='profile.html?id="+docs.data().user_id+"'>Profile</a>"
+                connectionsLink.innerHTML = "<a class='nav-item nav-link active' href='connections.html?id="+docs.data().user_id+"'>Connections<span class='sr-only'>(current)</span></a>"
+                bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+docs.data().user_id+"'>Bookmarks</a>"
+                dotsLink.innerHTML = "<a class='nav-item nav-link' href='dots.html?id="+docs.data().user_id+"'>Dots</a>"
+              });
 
         } else { // User is signed out!
             document.getElementById("sign-in").hidden = false;
             document.getElementById("sign-out").hidden = true;
+            document.getElementById("profilePage").hidden = true;
+            // document.getElementById("top-title").innerHTML = "Connections";
         }
     }
 </script>

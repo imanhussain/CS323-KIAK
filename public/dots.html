@@ -30,18 +30,31 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/profile.html">Profile</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections.html">Connections</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/bookmarks.html">Bookmarks</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots.html">Dots</a>
+          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com">Home</a>
+          <span id="profile_link"></span>
+          <span id="connections_link"></span>
+          <span id="bookmarks_link"></span>
+          <span id="dots_link"></span>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about.html">About</a>
         </div>
       </div>
     </nav>
 
+    <!-- Sign-in/out box  -->
+    <div id="message">
+      <h2 id="currentUser"></h2>
+      <h5 id="profilePage"></h5>
+      <button type="button" class="btn btn-dark" id="sign-in" onclick="signIn()">
+      	Sign-in
+      </button>
+      <button type="button" class="btn btn-dark" id="sign-out" onclick="signOut()" hidden>
+      	Sign-out
+      </button>
+      <hr>
+    </div>
+
     <div class="pageHeader">
-        <h2 class="title">Dots</h2>
+        <h2 class="title" id="top-title">Dots</h2>
         <h5 class="subtitle">You and Who Cares On Who Cares</h5>
     </div>
 
@@ -76,5 +89,69 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+    //sign in and out functions
+      function signIn() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider);
+      }
+
+      function signOut() {
+        firebase.auth().signOut();
+      }
+
+    //where the magic happens
+      document.addEventListener('DOMContentLoaded', function() {
+        firebase.auth().onAuthStateChanged(authStateObserver);
+        var db = firebase.firestore(); //need this to access our database
+        //trying to get the user_connections from the subcollection of user_connections
+        //may have to switch to a map/array in the user's document instead
+
+
+        try {
+          let app = firebase.app()
+          let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+        } catch (e) {
+          console.error(e);
+        }
+      });
+
+        function authStateObserver(user) {
+        if (user) { // User is signed in!
+            var db = firebase.firestore();
+
+            document.getElementById("sign-in").hidden = true;
+            document.getElementById("sign-out").hidden = false;
+
+            var currentUser = firebase.auth().currentUser.displayName;
+            document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
+            // document.getElementById("top-title").innerHTML = currentUser + "'s Dots";
+            var profilePage = document.getElementById("profilePage");
+
+            var profileLink = document.getElementById("profile_link");
+            var connectionsLink = document.getElementById("connections_link");
+            var bookmarksLink = document.getElementById("bookmarks_link");
+            var dotsLink = document.getElementById("dots_link");
+
+            db.collection("users").doc(firebase.auth().currentUser.uid).onSnapshot(function(docs) {
+                profilePage.innerHTML = "<a href='profile.html?id="+docs.data().user_id+"'>" + docs.data().username +"</a>";
+
+                profileLink.innerHTML = "<a class='nav-item nav-link' href='profile.html?id="+docs.data().user_id+"'>Profile</a>"
+                connectionsLink.innerHTML = "<a class='nav-item nav-link' href='connections.html?id="+docs.data().user_id+"'>Connections</a>"
+                bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+docs.data().user_id+"'>Bookmarks</a>"
+                dotsLink.innerHTML = "<a class='nav-item nav-link active' href='dots.html?id="+docs.data().user_id+"'>Dots<span class='sr-only'>(current)</span></a>"
+              });
+
+        } else { // User is signed out!
+            document.getElementById("sign-in").hidden = false;
+            document.getElementById("sign-out").hidden = true;
+            document.getElementById("profilePage").hidden = true;
+
+            // document.getElementById("top-title").innerHTML = "Dots";
+        }
+    }
+</script>
+
   </body>
 </html>

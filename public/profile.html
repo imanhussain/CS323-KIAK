@@ -36,7 +36,7 @@
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots">Dots</a>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about">About</a>
 -->
-            
+
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com">Home</a>
           <span id="profile_link"></span>
           <span id="connections_link"></span>
@@ -52,10 +52,10 @@
     <div id="message">
       <h2 id="currentUser"></h2>
       <h5 id="profilePage"></h5>
-      <button id="sign-in" onclick="signIn()">
+      <button type="button" class="btn btn-dark" id="sign-in" onclick="signIn()">
       	Sign-in
       </button>
-      <button id="sign-out" onclick="signOut()" hidden>
+      <button type="button" class="btn btn-dark" id="sign-out" onclick="signOut()" hidden>
       	Sign-out
       </button>
       <hr>
@@ -268,34 +268,23 @@
           document.getElementById("date_joined").innerHTML = (doc.data().date_joined).toDate();
         });
 
-        //trying to get the user_connections from the subcollection of user_connections
-        //may have to switch to a map/array in the user's document instead
-        db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
+        // trying to get the user_connections from the subcollection of user_connections
+        // may have to switch to a map/array in the user's document instead
+        // db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
+        //
+        //     querySnapshot.data().user_connections.forEach(function(docs) {
+        //         //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
+        //         //document.getElementById("connection").innerHTML = "";
+        //         db.collection("users").doc(docs).onSnapshot(function(newDoc) {
+        //             //console.log(newDoc.data().username)
+        //             document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
+        //         });
+        //     });
+        //
+        //    var connectionsArray = querySnapshot.data().user_connections;
+        //    document.getElementById("connection").innerHTML = connectionsArray;
+        // });
 
-            querySnapshot.data().user_connections.forEach(function(docs) {
-                //document.getElementById("connection").innerHTML += "<p>" + docs + "</p>";
-                //document.getElementById("connection").innerHTML = "";
-                db.collection("users").doc(docs).onSnapshot(function(newDoc) {
-                    //console.log(newDoc.data().username)
-                    document.getElementById("connection").innerHTML += "<p>" + "<a href='profile.html?id="+newDoc.data().user_id+"'>" + newDoc.data().username +"</a>" + "</p>";
-                });
-            });
-
-//            var connectionsArray = querySnapshot.data().user_connections;
-//            document.getElementById("connection").innerHTML = connectionsArray;
-        });
-
-        /*collection("user_details").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(docs) {
-            // doc.data() is never undefined for query doc snapshots
-            //console.log(doc.id, " => ", doc.data());
-            user_info = docs.collection("user_connections");
-            db.doc(user_info).onSnapshot(function(newQuerySnapshot) {
-                name = newQuerySnapshot.data().username;
-                document.getElementById("connection").innerHTML += "<p>" + name + "</p>";
-            })
-          });
-        });*/
 
         try {
           let app = firebase.app()
@@ -315,6 +304,8 @@
           var currentUser = firebase.auth().currentUser.displayName;
           document.getElementById("currentUser").innerHTML = "Welcome " + currentUser;
           var profilePage = document.getElementById("profilePage");
+
+          //for the nav bar
           var profileLink = document.getElementById("profile_link");
           var connectionsLink = document.getElementById("connections_link");
           var bookmarksLink = document.getElementById("bookmarks_link");
@@ -340,7 +331,7 @@
                 document.getElementById("following").hidden = false;
                 document.getElementById("unfollowing").hidden = true;
               }
-              
+
               profileLink.innerHTML = "<a class='nav-item nav-link active' href='profile.html?id="+docs.data().user_id+"'>Profile<span class='sr-only'>(current)</span></a>"
               connectionsLink.innerHTML = "<a class='nav-item nav-link' href='connections.html?id="+docs.data().user_id+"'>Connections</a>"
               bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+docs.data().user_id+"'>Bookmarks</a>"
