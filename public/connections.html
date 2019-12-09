@@ -32,10 +32,10 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link active" href="https://cs323-kiak.firebaseapp.com">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/profile.html">Profile</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/connections.html/userid">Connections</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/bookmarks.html">Bookmarks</a>
-          <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/dots.html">Dots</a>
+          <span id="profile_link"></span>
+          <span id="connections_link"></span>
+          <span id="bookmarks_link"></span>
+          <span id="dots_link"></span>
           <a class="nav-item nav-link" href="https://cs323-kiak.firebaseapp.com/about.html">About</a>
         </div>
       </div>
@@ -60,7 +60,7 @@
       </div>
 
     </div>
-      
+
     <!-- Sign-in/out box  -->
     <div id="message">
       <button id="sign-in" onclick="signIn()">
@@ -85,17 +85,29 @@
 
       function signOut() {
         firebase.auth().signOut();
-      } 
-    
+      }
+
     //where the magic happens
       document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var db = firebase.firestore(); //need this to access our database
         //trying to get the user_connections from the subcollection of user_connections
         //may have to switch to a map/array in the user's document instead
+
+        var profileLink = document.getElementById("profile_link");
+        var connectionsLink = document.getElementById("connections_link");
+        var bookmarksLink = document.getElementById("bookmarks_link");
+        var dotsLink = document.getElementById("dots_link");
+
         var vals = window.location.search.split("=");
         db.collection("users").doc(vals[1]).onSnapshot(function (querySnapshot) {
             document.getElementById("web").innerHTML = querySnapshot.data().username + "'s Web";
+
+            profileLink.innerHTML = "<a class='nav-item nav-link' href='profile.html?id="+querySnapshot.data().user_id+"'>Profile</a>"
+            connectionsLink.innerHTML = "<a class='nav-item nav-link active' href='connections.html?id="+querySnapshot.data().user_id+"'>Connections<span class='sr-only'>(current)</span></a>"
+            bookmarksLink.innerHTML = "<a class='nav-item nav-link' href='bookmarks.html?id="+querySnapshot.data().user_id+"'>Bookmarks</a>"
+            dotsLink.innerHTML = "<a class='nav-item nav-link' href='dots.html?id="+querySnapshot.data().user_id+"'>Dots</a>"
+
             querySnapshot.data().user_connections.forEach(function(docs) {
                 //document.getElementById("connection").innerHTML = "";
                 db.collection("users").doc(docs).onSnapshot(function(newDoc) {
@@ -104,8 +116,8 @@
                 });
             });
         });
-          
-                                                       
+
+
         try {
           let app = firebase.app()
           let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
@@ -113,7 +125,7 @@
           console.error(e);
         }
       });
-    
+
         function authStateObserver(user) {
         if (user) { // User is signed in!
             document.getElementById("sign-in").hidden = true;
